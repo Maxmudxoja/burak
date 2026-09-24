@@ -81,3 +81,7 @@
 // Key difference in one line:
 // A compiler translates the whole program first, then runs it. An interpreter translates and runs the program at the same time, one line at a time.
 // Note: Some languages (like Java, and modern JavaScript engines) use both — a compiler turns code into an intermediate form (bytecode), which an interpreter or JIT compiler then executes. This is called a hybrid approach.
+
+
+
+//CLUSTER=>DATABASE=>COLLECTION=>DOCUMENT
