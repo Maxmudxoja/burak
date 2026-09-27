@@ -1,5 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-import { MemeberStatus, MemeberType } from "../libs/enums/member_enum";
+import { MemberStatus, MemberType } from "../libs/enums/member_enum";
 
 //Schemani qurish usullari
 // Schema first-> schemadan foydalanish
@@ -9,13 +9,13 @@ const memberSchema = new Schema(
   {
     memberType: {
       type: String,
-      enum: MemeberType,
-      default: MemeberType.USER,
+      enum: MemberType,
+      default: MemberType.USER,
     },
     memberSatus: {
       type: String,
-      enum: MemeberStatus,
-      default: MemeberStatus.ACTIVE,
+      enum: MemberStatus,
+      default: MemberStatus.ACTIVE,
     },
 
     memberNick: {
@@ -36,7 +36,7 @@ const memberSchema = new Schema(
       required: true,
     },
 
-    memberAdress: {
+    memberAddress: {
       type: String,
     },
 
