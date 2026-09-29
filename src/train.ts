@@ -1,3 +1,11 @@
+/** API types
+ * Traditionally, API types are defined in a separate file (e.g., `apiTypes.ts`) to maintain a clear separation of concerns. This file contains TypeScript interfaces and types that describe the structure of the data exchanged between the client and server. By defining these types in a dedicated file, we can ensure consistency across the application and facilitate easier maintenance and updates to the API contracts.
+ *
+ * Rest API types are typically used to define the expected request and response formats for various endpoints. This includes specifying the shape of request bodies, query parameters, and response objects. By using TypeScript's type system, we can catch potential errors at compile time, improving the overall reliability of the application.
+ *
+ * GraphQL API types, on the other hand, are often generated automatically based on the GraphQL schema. Tools like GraphQL Code Generator can generate TypeScript types that correspond to the GraphQL queries and mutations defined in the schema. This allows developers to work with strongly typed data when interacting with a GraphQL API, reducing the likelihood of runtime errors and improving developer productivity.
+ */
+
 /* Project Standards:
  - Logging standards
  - Naming standards
