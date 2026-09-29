@@ -1,3 +1,10 @@
+//Responselarning turlari
+//send | json |redirect|end|render
+
+
+
+
+
 // ## Architectural Patterns
 
 // 1. MVC (Model-View-Controller)**
