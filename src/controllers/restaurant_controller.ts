@@ -6,6 +6,7 @@ const restaurantController: T = {};
 
 restaurantController.goHome = (req: Request, res: Response) => {
   try {
+    console.log("Go Home");
     res.send(" Home Page");
   } catch (err) {
     console.log("Error go home ", err);
@@ -14,6 +15,7 @@ restaurantController.goHome = (req: Request, res: Response) => {
 
 restaurantController.getLogin = (req: Request, res: Response) => {
   try {
+    console.log("Get Login");
     res.send(" Login Page");
   } catch (err) {
     console.log("Error go home ", err);
@@ -22,6 +24,7 @@ restaurantController.getLogin = (req: Request, res: Response) => {
 
 restaurantController.getSignup = (req: Request, res: Response) => {
   try {
+    console.log("Get Sign Up");
     res.send(" Sign Up Page");
   } catch (err) {
     console.log("Error go home ", err);
