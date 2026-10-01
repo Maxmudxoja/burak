@@ -8,16 +8,19 @@ export enum HttpCode {
 }
 
 export enum Message {
-  SOMETHING_WENT_WRONG = "Something went wrong",
-  NO_DATA_FOUND = "No data found",
-  CREATED_FAILED = "Created failed",
-  UPDATE_FAILED = "Update failed",
-  OK = "OK",
-  BAD_REQUEST = "Bad Request",
-  UNAUTHORIZED = "Unauthorized",
-  FORBIDDEN = "Forbidden",
-  NOT_FOUND = "Not Found",
-  INTERNAL_SERVER_ERROR = "Internal Server Error",
+  SOMETHING_WENT_WRONG = "Something went wrong !",
+  NO_DATA_FOUND = "No data found !",
+  CREATED_FAILED = "Created failed !",
+  UPDATE_FAILED = "Update failed !",
+  BAD_REQUEST = "Bad Request !",
+  UNAUTHORIZED = "Unauthorized !",
+  FORBIDDEN = "Forbidden !",
+  NOT_FOUND = "Not Found !",
+  INTERNAL_SERVER_ERROR = "Internal Server Error !",
+
+  NO_MEMBER_NICK = "No member with this nickname !",
+  USED_NICK_PHONE = "This nickname or phone number is already used !",
+  WRONG_PASSWORD = "Wrong password inserted , please try again !",
 }
 
 class Errors extends Error {
