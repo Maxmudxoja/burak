@@ -1,3 +1,16 @@
+
+/**
+Frontendni develop qilish jarayonini 
+-> Traditional Frontend Development =>BSSR (Adminka loyihamiz amalga oshiriladi)-> Backend Server-Side Rendering (BSSR) means the backend server itself builds the complete HTML page using a template engine and sends it to the browser. There's no separate front-end framework like React; the backend handles both the data and the page. ->EJS framework orqali amalga oshiriladi
+
+Modern Frontend Development-> SPA(Users' application) =>A Single Page Application (SPA) loads one HTML page once, and after that JavaScript updates the content in the browser without reloading the page. When you click a link, only the needed part of the screen changes.   =>JSON formatdagi data ni qabul qilib jonatadi-> React library dan foydalanib qilinadi
+
+**/
+
+
+
+
+
 /** API types
  * Traditionally, API types are defined in a separate file (e.g., `apiTypes.ts`) to maintain a clear separation of concerns. This file contains TypeScript interfaces and types that describe the structure of the data exchanged between the client and server. By defining these types in a dedicated file, we can ensure consistency across the application and facilitate easier maintenance and updates to the API contracts.
  *
