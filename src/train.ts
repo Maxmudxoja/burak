@@ -1,5 +1,14 @@
 //MIT tasks
 
+//Q-Task
+
+// function hasProperty(obj: object, key: string): boolean {
+//   return Object.prototype.hasOwnProperty.call(obj, key);
+// }
+
+// console.log(hasProperty({ name: "BMW", model: "M3" }, "model"));
+// console.log(hasProperty({ name: "BMW", model: "M3" }, "year"));
+
 //P- task
 
 // function objectToArray(obj: Record<string, number>): [string, number][] {
