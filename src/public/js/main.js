@@ -1,0 +1,1 @@
+console.log("FRONTEND JAVA SCRIPT IS WORKING");
