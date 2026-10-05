@@ -1,5 +1,18 @@
 //MIT tasks
 
+//R-Task
+
+// function calculate(expression: string): number {
+//   return expression
+//     .split("+")
+//     .map((num) => Number(num.trim()))
+//     .reduce((sum, num) => sum + num, 0);
+// }
+
+// console.log(calculate("1+3"));
+// console.log(calculate("10+20+5"));
+// console.log(calculate("2 + 7"));
+
 //Q-Task
 
 // function hasProperty(obj: object, key: string): boolean {
