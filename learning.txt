@@ -1,4 +1,13 @@
 
+// Cookies features
+->request join
+->self destroy-> after set time 
+
+
+
+
+
+
 /**
 Frontendni develop qilish jarayonini 
 -> Traditional Frontend Development =>BSSR (Adminka loyihamiz amalga oshiriladi)-> Backend Server-Side Rendering (BSSR) means the backend server itself builds the complete HTML page using a template engine and sends it to the browser. There's no separate front-end framework like React; the backend handles both the data and the page. ->EJS framework orqali amalga oshiriladi
