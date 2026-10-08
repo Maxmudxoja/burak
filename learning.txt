@@ -1,4 +1,16 @@
 
+Validation lar 4 xil boladi
+
+->Frontend validation 
+->Backend Validation
+->Database Validation
+
+
+
+
+
+
+
 // Cookies features
 ->request join
 ->self destroy-> after set time 
