@@ -69,6 +69,7 @@ class MemberService {
 
     try {
       const result = await this.memberModel.create(input);
+      result.memberPassword = "";
       return result;
     } catch (err) {
       throw new Errors(HttpCode.BAD_REQUEST, Message.CREATED_FAILED);
@@ -76,7 +77,6 @@ class MemberService {
 
     // const tempResult = new this.memberModel(input);
     // const result = await tempResult.save();
-    // result.memberPassword = "";
   }
 
   public async processLogin(input: LoginInput): Promise<Member> {
