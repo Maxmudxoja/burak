@@ -1,5 +1,22 @@
 //MIT tasks
 
+//V-TASK
+// function countChars(str: string): Record<string, number> {
+//   const result: Record<string, number> = {};
+
+//   for (const char of str) {
+//     if (result[char]) {
+//       result[char]++;
+//     } else {
+//       result[char] = 1;
+//     }
+//   }
+
+//   return result;
+// }
+
+// console.log(countChars("hello"));
+
 //U - TASK;
 // function sumOdds(num: number): number {
 //   let count = 0;
