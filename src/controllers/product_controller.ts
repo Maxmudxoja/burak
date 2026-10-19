@@ -32,6 +32,8 @@ productController.createNewProduct = async (
     console.log("Create new product");
     console.log("req.files: ", req.files);
 
+    console.log("req.body: ", req.body);
+
     if (!req.files?.length)
       throw new Errors(HttpCode.INTERNAL_SERVER_ERROR, Message.CREATED_FAILED);
 
