@@ -20,6 +20,7 @@ export enum Message {
   INTERNAL_SERVER_ERROR = "Internal Server Error !",
 
   NO_MEMBER_NICK = "No member with this nickname !",
+  BLOCKED_USER = "You have been blocked, Contact restaurant",
   USED_NICK_PHONE = "This nickname or phone number is already used !",
   WRONG_PASSWORD = "Wrong password inserted , please try again !",
   NOT_AUTHENTICATED = "You are not logged in !",
