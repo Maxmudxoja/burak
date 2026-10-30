@@ -1,21 +1,24 @@
 import { Request, Response } from "express";
 import { T } from "../libs/types/common";
-import MemberService from "../models/Member_service";
+import MemberService from "../models/Member.service";
 import { LoginInput, Member, MemberInput } from "../libs/types/member";
 import Errors from "../libs/Errors";
+import AuthService from "../models/Auth.Service";
 
 const memberService = new MemberService();
 const memberController: T = {};
+const authService = new AuthService();
 
 memberController.signup = async (req: Request, res: Response) => {
   try {
     console.log(" Sign Up");
 
-    // TODOS: TOKENS Authentication
-
     const input: MemberInput = req.body,
       result: Member = await memberService.signup(input);
+    const token = await authService.createToken(result);
+    console.log("Token=>", token);
 
+    // TODOS: TOKENS Authentication
     res.json({ member: result });
   } catch (err) {
     console.log("Error Sign up ", err);
@@ -27,11 +30,12 @@ memberController.signup = async (req: Request, res: Response) => {
 memberController.login = async (req: Request, res: Response) => {
   try {
     console.log("Login");
-
-    // TODOS: TOKENS Authentication
-
     const input: LoginInput = req.body,
-      result = await memberService.login(input);
+      result = await memberService.login(input),
+      token = await authService.createToken(result);
+
+    console.log("Token=>", token);
+    // TODOS: TOKENS Authentication
 
     res.json({ member: result });
   } catch (err) {
