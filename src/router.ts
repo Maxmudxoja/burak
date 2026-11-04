@@ -3,6 +3,7 @@ const router = express.Router();
 import uploader from "./libs/utils/uploader";
 
 import memberController from "./controllers/member_controller";
+import productController from "./controllers/product_controller";
 
 /** MEMBER */
 router.get("/member/restaurant", memberController.getRestaurant);
@@ -32,6 +33,8 @@ router.post(
 router.get("/member/top-users", memberController.getTopUsers);
 
 /** Product */
+
+router.get("/product/all", productController.getProducts);
 
 /** Order*/
 export default router;
