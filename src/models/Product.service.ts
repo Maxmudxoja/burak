@@ -9,6 +9,7 @@ import {
   ProductUpdateInput,
 } from "../libs/types/product";
 import ProductModel from "../schema/Product_model";
+import { ObjectId } from "mongoose";
 
 class ProductService {
   private readonly productModel;
@@ -20,7 +21,6 @@ class ProductService {
   /**SPA*/
 
   public async getProducts(inquiry: ProductInquiry): Promise<Product[]> {
-    console.log("ProductService:getProducts inquiry: ", inquiry);
     const match: T = { productStatus: ProductStatus.PROCESS };
     if (inquiry.productCollection)
       match.productCollection = inquiry.productCollection;
@@ -43,6 +43,23 @@ class ProductService {
       .exec();
 
     if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
+
+    return result;
+  }
+
+  public async getProduct(
+    memberId: ObjectId | null,
+    id: string,
+  ): Promise<Product> {
+    const poductId = shapeIntoMongooseObjectId(id);
+
+    let result = await this.productModel
+      .findOne({ _id: poductId, productStatus: ProductStatus.PROCESS })
+      .exec();
+
+    if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
+
+    //TODO: Add logic to track product views log if authenticated member
 
     return result;
   }
