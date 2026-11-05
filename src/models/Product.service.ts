@@ -58,15 +58,17 @@ class ProductService {
     id: string,
   ): Promise<Product> {
     const productId = shapeIntoMongooseObjectId(id);
-
     let result = await this.productModel
-      .findOne({ _id: productId, productStatus: ProductStatus.PROCESS })
+      .findOne({
+        _id: productId,
+        productStatus: ProductStatus.PROCESS,
+      })
       .exec();
-
     if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
 
+    //only authenticated member
     if (memberId) {
-      //Check Veiw Log excistance
+      //check existence
       const input: ViewInput = {
         memberId: memberId,
         viewRefId: productId,
@@ -74,22 +76,23 @@ class ProductService {
       };
       const existView = await this.viewService.checkViewExistence(input);
 
-      console.log("existView", !!existView);
       if (!existView) {
-        //Insert New View
-
+        //insert view (save to db)
         await this.viewService.insertMemberView(input);
+
+        //count+1 -> view
+        const updatedView = await this.productModel
+          .findByIdAndUpdate(
+            productId,
+            {
+              $inc: { productViews: +1 },
+            },
+            { new: true },
+          )
+          .exec();
+
+        if (updatedView) result = updatedView;
       }
-
-      //Increase Target View Counts
-
-      result = await this.productModel
-        .findByIdAndUpdate(
-          productId,
-          { $inc: { productViews: +1 } },
-          { new: true },
-        )
-        .exec();
     }
 
     return result;
