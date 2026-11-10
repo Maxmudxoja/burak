@@ -1,3 +1,4 @@
+// ORDER CONTROLLER (SPA): barcha handler'lar verifyAuth dan keyin ishlaydi, shuning uchun req.member doim mavjud.
 import Errors, { HttpCode } from "../libs/Errors";
 import { T } from "../libs/types/common";
 import { json, Response } from "express";
@@ -10,6 +11,7 @@ const orderController: T = {};
 
 const orderService = new OrderService();
 
+// POST /order/create -> req.body (item'lar massivi) va req.member bilan buyurtma yaratadi, 201 qaytaradi.
 orderController.createOrder = async (req: ExtendedRequest, res: Response) => {
   try {
     console.log("createOrder");
@@ -24,6 +26,7 @@ orderController.createOrder = async (req: ExtendedRequest, res: Response) => {
   }
 };
 
+// GET /order/all -> req.query dan page, limit, orderStatus ni olib OrderInquiry tuzadi va userning buyurtmalarini qaytaradi.
 orderController.getMyOrders = async (req: ExtendedRequest, res: Response) => {
   try {
     console.log("getMyOrders");
@@ -48,6 +51,7 @@ orderController.getMyOrders = async (req: ExtendedRequest, res: Response) => {
   }
 };
 
+// POST /order/update -> req.body { orderId, orderStatus } bilan userning buyurtmasi statusini o'zgartiradi.
 orderController.updateOrder = async (req: ExtendedRequest, res: Response) => {
   try {
     console.log("updateOrder");

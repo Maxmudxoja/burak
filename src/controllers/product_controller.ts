@@ -1,3 +1,4 @@
+// PRODUCT CONTROLLER: ham SPA (JSON), ham admin SSR (EJS) uchun mahsulot handler'lari.
 import { Request, Response } from "express";
 import Errors, { HttpCode, Message } from "../libs/Errors";
 import { T } from "../libs/types/common";
@@ -11,6 +12,8 @@ const productController: T = {};
 
 /**SPA*/
 
+// GET /product/all -> req.query (page, limit, order, productCollection, search) dan ProductInquiry tuzadi.
+// query string bo'lgani uchun Number()/String() bilan turiga o'giriladi. Natija JSON.
 productController.getProducts = async (req: Request, res: Response) => {
   try {
     console.log("getProducts");
@@ -37,6 +40,7 @@ productController.getProducts = async (req: Request, res: Response) => {
   }
 };
 
+// GET /product/:id -> URL'dan id ni oladi, retrieveAuth qo'ygan req.member bo'lsa uning _id sini, bo'lmasa null beradi.
 productController.getProduct = async (
   req: ExtendedRequest & { params: { id: string } },
   res: Response,
@@ -56,6 +60,7 @@ productController.getProduct = async (
 };
 
 /**SSR*/
+// GET /admin/product/all -> barcha mahsulotlarni "products" EJS sahifasiga beradi.
 productController.getAllProducts = async (req: Request, res: Response) => {
   try {
     console.log("Get all products");
@@ -70,6 +75,8 @@ productController.getAllProducts = async (req: Request, res: Response) => {
   }
 };
 
+// POST /admin/product/create -> rasm bo'lmasa xato. multer'dan kelgan req.files yo'llarini productImages ga yozadi
+// (\\ ni / ga almashtiradi - Windows yo'llari uchun), mahsulot yaratadi va alert bilan product/all ga qaytaradi.
 productController.createNewProduct = async (
   req: AdminRequest,
   res: Response,
@@ -103,6 +110,7 @@ productController.createNewProduct = async (
   }
 };
 
+// POST /admin/product/:id -> URL'dagi id va req.body bilan mahsulotni yangilab JSON qaytaradi.
 productController.updateChosenProduct = async (req: Request, res: Response) => {
   try {
     console.log("Update chosen product");

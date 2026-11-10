@@ -1,3 +1,5 @@
+// RESTAURANT CONTROLLER (Admin / BSSR): EJS sahifalarni render qiladi, session orqali admin auth'ni boshqaradi.
+// Xato bo'lsa ko'pincha JSON emas, <script>alert(...)</script> yoki redirect qaytaradi.
 import { NextFunction, Request, Response } from "express";
 import { T } from "../libs/types/common";
 import MemberService from "../models/Member.service";
@@ -8,6 +10,7 @@ import Errors, { HttpCode, Message } from "../libs/Errors";
 const memberService = new MemberService();
 const restaurantController: T = {};
 
+// GET /admin -> "home" sahifasini render qiladi.
 restaurantController.goHome = (req: Request, res: Response) => {
   try {
     console.log("Go Home");
@@ -18,6 +21,7 @@ restaurantController.goHome = (req: Request, res: Response) => {
   }
 };
 
+// GET /admin/signup -> "signup" sahifasini render qiladi.
 restaurantController.getSignup = (req: Request, res: Response) => {
   try {
     console.log("Get Sign Up");
@@ -28,6 +32,7 @@ restaurantController.getSignup = (req: Request, res: Response) => {
   }
 };
 
+// GET /admin/login -> "login" sahifasini render qiladi.
 restaurantController.getLogin = (req: Request, res: Response) => {
   try {
     console.log("Get Login");
@@ -38,6 +43,8 @@ restaurantController.getLogin = (req: Request, res: Response) => {
   }
 };
 
+// POST /admin/signup -> rasm majburiy (req.file bo'lmasa xato), memberType ni RESTAURANT qilib yaratadi,
+// natijani req.session.member ga yozadi, session saqlangach /admin/product/all ga redirect qiladi.
 restaurantController.processSignup = async (
   req: AdminRequest,
   res: Response,
@@ -68,6 +75,7 @@ restaurantController.processSignup = async (
   }
 };
 
+// POST /admin/login -> nick/parolni tekshiradi, req.session.member ga yozadi, saqlangach /admin/product/all ga redirect qiladi.
 restaurantController.processLogin = async (
   req: AdminRequest,
   res: Response,
@@ -93,6 +101,7 @@ restaurantController.processLogin = async (
   }
 };
 
+// GET /admin/logout -> session.destroy bilan sessionni o'chiradi va /admin ga qaytaradi.
 restaurantController.logout = async (req: AdminRequest, res: Response) => {
   try {
     console.log("Process Logout");
@@ -106,6 +115,7 @@ restaurantController.logout = async (req: AdminRequest, res: Response) => {
   }
 };
 
+// GET /admin/user/all -> barcha USER larni olib "users" sahifasiga { users } qilib beradi.
 restaurantController.getUsers = async (req: Request, res: Response) => {
   try {
     console.log("Get Users");
@@ -120,6 +130,7 @@ restaurantController.getUsers = async (req: Request, res: Response) => {
   }
 };
 
+// POST /admin/user/edit -> req.body dagi _id bo'yicha userni yangilaydi va JSON { data } qaytaradi (sahifadagi JS axios bilan chaqiradi).
 restaurantController.updateChosenUser = async (req: Request, res: Response) => {
   try {
     console.log("Update Chosen Users");
@@ -132,6 +143,7 @@ restaurantController.updateChosenUser = async (req: Request, res: Response) => {
   }
 };
 
+// GET /admin/check-me -> session'da member bormi tekshirib, nickni yoki NOT_AUTHENTICATED ni alert qiladi (test uchun).
 restaurantController.checkAuthsession = async (
   req: AdminRequest,
   res: Response,
@@ -148,6 +160,8 @@ restaurantController.checkAuthsession = async (
   }
 };
 
+// MIDDLEWARE: session'dagi member RESTAURANT turida bo'lsa req.member ga yozib next() qiladi,
+// aks holda alert chiqarib /admin/login ga yuboradi (keyingi handler ishlamaydi).
 restaurantController.verifyRestaurant = (
   req: AdminRequest,
   res: Response,

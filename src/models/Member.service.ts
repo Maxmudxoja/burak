@@ -1,3 +1,5 @@
+// MEMBER SERVICE: member bilan bog'liq barcha business logic va bazaga murojaatlar.
+// Oqim: router -> controller (req/res bilan ishlaydi) -> SERVICE (logika + baza) -> schema/model (MongoDB).
 import MemberModel from "../schema/Member_model";
 import {
   LoginInput,
@@ -10,15 +12,18 @@ import { MemberStatus, MemberType } from "../libs/enums/member_enum";
 import bcrypt from "bcryptjs";
 import { shapeIntoMongooseObjectId } from "../libs/config";
 
+// Controller'lar `new MemberService()` qilib shu class metodlarini chaqiradi.
 class MemberService {
   private readonly memberModel;
 
   constructor() {
+    // Member modeli class ichida saqlanadi, barcha metodlar this.memberModel orqali bazaga murojaat qiladi.
     this.memberModel = MemberModel;
   }
 
   /**SPA*/
 
+  // Bazadan memberType = RESTAURANT bo'lgan yagona restoranni topadi. Topilmasa 404.
   public async getRestaurant(): Promise<Member> {
     const result = await this.memberModel
       .findOne({
@@ -29,6 +34,8 @@ class MemberService {
     return result;
   }
 
+  // SPA signup: parolni bcrypt bilan hash qiladi, yangi member yaratadi,
+  // javobdan parolni olib tashlab qaytaradi. Nick/phone band bo'lsa (unique xato) 400 USED_NICK_PHONE.
   public async signup(input: MemberInput): Promise<Member> {
     const salt = await bcrypt.genSalt();
     input.memberPassword = await bcrypt.hash(input.memberPassword, salt);
@@ -47,6 +54,9 @@ class MemberService {
     // result.memberPassword = "";
   }
 
+  // SPA login: 1) nick bo'yicha (DELETE bo'lmagan) memberni topadi, parolni ham olib keladi (select: false bo'lgani uchun aniq so'raladi),
+  // 2) topilmasa 404, BLOCK bo'lsa 403, 3) bcrypt.compare bilan parolni tekshiradi, noto'g'ri bo'lsa 401,
+  // 4) to'g'ri bo'lsa memberni to'liq (parolsiz) qaytaradi.
   public async login(input: LoginInput): Promise<Member> {
     const member = await this.memberModel
       .findOne(
@@ -75,6 +85,7 @@ class MemberService {
     return await this.memberModel.findById(member._id).lean().exec();
   }
 
+  // Token'dagi member _id si bo'yicha faqat ACTIVE memberni bazadan yangidan oladi.
   public async getMemberDetail(member: Member): Promise<Member> {
     const memberId = shapeIntoMongooseObjectId(member._id);
     const result = await this.memberModel
@@ -85,6 +96,7 @@ class MemberService {
     return result;
   }
 
+  // Login bo'lgan memberning o'z ma'lumotlarini yangilaydi. { new: true } - yangilangan versiyani qaytaradi.
   public async updateMember(
     member: Member,
     input: MemberUpdateInput,
@@ -98,6 +110,7 @@ class MemberService {
     return result;
   }
 
+  // Kamida 1 ballga ega ACTIVE userlarni ball bo'yicha kamayish tartibida saralab, eng yaxshi 4 tasini qaytaradi.
   public async getTopUsers(): Promise<Member[]> {
     const result = await this.memberModel
       .find({
@@ -112,6 +125,7 @@ class MemberService {
     return result;
   }
 
+  // OrderService chaqiradi: ACTIVE USER ning memberPoints ini $inc bilan `point` ga oshiradi.
   public async addUserPoint(member: Member, point: number): Promise<Member> {
     const memberId = shapeIntoMongooseObjectId(member._id);
 
@@ -130,6 +144,8 @@ class MemberService {
 
   /**SSR*/
 
+  // Admin signup: tizimda faqat BITTA restoran bo'lishi mumkin, allaqachon bor bo'lsa 400.
+  // Keyin parolni hash qilib RESTAURANT turidagi member yaratadi.
   public async processSignup(input: MemberInput): Promise<Member> {
     const exist = await this.memberModel
       .findOne({
@@ -153,6 +169,7 @@ class MemberService {
     // const result = await tempResult.save();
   }
 
+  // Admin login: nick bo'yicha topadi, bcrypt bilan parolni tekshiradi, to'g'ri bo'lsa memberni qaytaradi (controller uni session'ga yozadi).
   public async processLogin(input: LoginInput): Promise<Member> {
     const member = await this.memberModel
       .findOne(
@@ -175,6 +192,7 @@ class MemberService {
     return await this.memberModel.findById(member._id).exec();
   }
 
+  // Admin panel uchun barcha USER turidagi memberlar ro'yxati.
   public async getUsers(): Promise<Member[]> {
     const result = await this.memberModel
       .find({ memberType: MemberType.USER })
@@ -185,6 +203,7 @@ class MemberService {
     return result;
   }
 
+  // Admin tanlagan userni (input._id) yangilaydi, masalan memberStatus ni BLOCK qilish.
   public async updateChosenUser(input: MemberUpdateInput): Promise<Member> {
     input._id = shapeIntoMongooseObjectId(input._id);
     const result = await this.memberModel

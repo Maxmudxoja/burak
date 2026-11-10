@@ -1,3 +1,5 @@
+// ORDER SERVICE: buyurtma yaratish, olish va yangilash. Order va OrderItem modellari bilan,
+// ball qo'shish uchun MemberService bilan ishlaydi.
 import OrderItemModel from "../schema/Orderitem_model";
 import OrderModel from "../schema/Order_model";
 import { Member } from "../libs/types/member";
@@ -24,6 +26,11 @@ class OrderService {
     this.memberService = new MemberService();
   }
 
+  // Buyurtma yaratish oqimi: input = [{ productId, itemQuantity, itemPrice }, ...]
+  // 1) reduce bilan umumiy summa (narx * soni) hisoblanadi,
+  // 2) summa 100 dan kam bo'lsa yetkazish 5, aks holda bepul,
+  // 3) Order yaratiladi (orderTotal = summa + yetkazish, status default PAUSE),
+  // 4) recordOrderItem bilan har bir mahsulot alohida OrderItem sifatida yoziladi.
   public async createOrder(
     member: Member,
     input: OrderItemInput[],
@@ -57,6 +64,8 @@ class OrderService {
     }
   }
 
+  // Har bir item ga orderId biriktiriladi va OrderItem yaratiladi.
+  // map async Promise'lar massivini qaytaradi, Promise.all hammasi parallel tugashini kutadi.
   private async recordOrderItem(
     orderId: ObjectId,
     input: OrderItemInput[],
@@ -72,6 +81,10 @@ class OrderService {
     console.log("orderItemState: ", orderItemState);
   }
 
+  // Login bo'lgan userning berilgan statusdagi buyurtmalari (aggregation pipeline):
+  // $match -> faqat shu user + status, $sort -> eng yangilari oldin, $skip/$limit -> pagination,
+  // 1-$lookup -> orderItems collection'idan shu buyurtma itemlarini "orderItems" ga qo'shadi,
+  // 2-$lookup -> o'sha itemlarning productId lari bo'yicha products dan "productData" ni qo'shadi.
   public async getMyOrders(
     member: Member,
     inquiry: OrderInquiry,
@@ -109,6 +122,8 @@ class OrderService {
     return result;
   }
 
+  // Buyurtma statusini o'zgartirish: faqat o'z buyurtmasini (memberId + orderId mos kelsa) yangilaydi.
+  // Topilmasa 304 UPDATE_FAILED. Yangi status PROCESS bo'lsa (user to'lov qildi), userga +1 ball qo'shiladi.
   public async updateOrder(
     member: Member,
     input: OrderUpdateInput,
