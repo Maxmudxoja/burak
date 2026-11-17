@@ -1,5 +1,6 @@
 // EXPRESS APP SOZLAMALARI. Har bir kelgan so'rov (request) shu fayldagi middleware'lardan
 // yuqoridan pastga ketma-ket o'tadi: static -> body parse -> cookie -> log -> session -> views -> router.
+import cors from "cors";
 import express from "express";
 import path, { dirname } from "path";
 import router from "./router";
@@ -32,6 +33,8 @@ app.use("/uploads", express.static("./uploads"));
 app.use(express.urlencoded({ extended: true }));
 // JSON body ni req.body ga o'giradi (React SPA so'rovlari uchun).
 app.use(express.json());
+//Ixtiyoriy domaindan kelayotgan requestlarni serverga kirishga ruxsat beradi
+app.use(cors({ credentials: true, origin: true }));
 // Cookie'larni o'qib req.cookies ga joylaydi (verifyAuth "accessToken" ni shu yerdan oladi).
 app.use(cookieParser());
 // Har bir so'rovni MORGAN_FORMAT ko'rinishida terminalga log qiladi (method, url, vaqt, status).

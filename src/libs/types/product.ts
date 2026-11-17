@@ -21,6 +21,8 @@ export interface Product {
   productDesc?: string;
   productImages: string[];
   productViews: number;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 // Admin yangi mahsulot yaratganda keladigan ma'lumot (req.body + multer'dan rasm yo'llari).
